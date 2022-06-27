@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/order")
 public class OrderController {
 
     private OrderService orderService;
@@ -17,19 +18,19 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/{id}")
     public Order getOrder(@PathVariable Integer id){
         return orderService.getById(id);
     }
 
-    @PostMapping("/order")
+    @PostMapping
     public Order postOrder(@RequestBody OrderDTO order){ int id = orderService.createOrder(order);
     return orderService.getById(id);
     }
 
-    @PutMapping("/order/{id}")
+    @PutMapping("/{id}")
     public void putOrder(@PathVariable Integer id, @RequestBody OrderDTO orderDTO){orderService.putOrder(id, orderDTO);}
 
-    @DeleteMapping("/order/{id}")
+    @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Integer id){orderService.deleteOrder(id);}
 }
