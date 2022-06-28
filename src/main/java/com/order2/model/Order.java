@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Order {
     private Integer id;
-    private short orderStatus;
-    private String name;
-    private String phone;
-    private String comment;
+    private short orderStatusId;
+    private String customerName;
+    private String customerPhone;
+    private String customerComment;
 
-    private List<OrderItem> orderItem;
+    private List<OrderItem> orderItems;
 
     public Integer getId() {
         return id;
@@ -20,44 +20,44 @@ public class Order {
         this.id = id;
     }
 
-    public short getOrderStatus() {
-        return orderStatus;
+    public short getOrderStatusId() {
+        return orderStatusId;
     }
 
-    public void setOrderStatus(short orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setOrderStatusId(short orderStatusId) {
+        this.orderStatusId = orderStatusId;
     }
 
-    public String getName() {
-        return name;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCustomerPhone() {
+        return customerPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
     }
 
-    public String getComment() {
-        return comment;
+    public String getCustomerComment() {
+        return customerComment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setCustomerComment(String customerComment) {
+        this.customerComment = customerComment;
     }
 
-    public List<OrderItem> getOrderItem() {
-        return orderItem;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setOrderItem(List<OrderItem> orderItem) {
-        this.orderItem = orderItem;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
 

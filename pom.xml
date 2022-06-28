@@ -11,7 +11,7 @@
     <groupId>com.order2</groupId>
     <artifactId>order2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>order2</name>
+    <customerName>order2</customerName>
     <description>order2</description>
     <properties>
         <java.version>11</java.version>
@@ -32,6 +32,22 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

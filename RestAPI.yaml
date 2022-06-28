@@ -1,0 +1,145 @@
+swagger: '2.0'
+info:
+  description: Order microservice REST API v1.0
+  version: '1.0'
+  title: Test Order Microservice
+host: 'localhost:8080'
+basePath: /
+paths:
+  /order:
+    post:
+      summary: Request for adding a new Order
+      operationId: postOrderUsingPOST
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: order
+          description: order
+          required: true
+          schema:
+            $ref: '#/definitions/OrderDTO'
+      responses:
+        '200':
+          description: A new order has been successfully created
+          schema:
+            $ref: '#/definitions/Order'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/order/{id}':
+    get:
+      summary: Возвращает заказ по id
+      operationId: getOrderUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: Numeric ID of the Order object
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            $ref: '#/definitions/Order'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: A resource with requested ID not foun
+    put:
+      summary: Request for editing the Order by id
+      operationId: putOrderUsingPUT
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Numeric ID of the Order which has to be updated
+          required: true
+          type: integer
+        - in: body
+          name: orderDTO
+          required: true
+          schema:
+            $ref: '#/definitions/OrderDTO'
+      responses:
+        '200':
+          description: Order has been updated successfully
+        '201':
+          description: Order has been updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      summary: Removes order by id
+      operationId: deleteOrderUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: The Order has been deleted successfully
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+definitions:
+  Order:
+    type: object
+    properties:
+      id:
+        type: integer
+      orderStatusId:
+        type: integer
+      customerName:
+        type: string
+      customerPhone:
+        type: string
+      customerComment:
+        type: string
+      orderItems:
+        type: array
+        items:
+          $ref: '#/definitions/OrderItem'
+    title: Order
+  OrderDTO:
+    type: object
+    properties:
+      orderStatusId:
+        type: integer
+      customerName:
+        type: string
+      customerPhone:
+        type: string
+      customerComment:
+         type: string
+      orderItems:
+         type: array
+         items:
+            $ref: '#/definitions/OrderItem'
+    title: OrderDTO
+  OrderItem:
+    type: object
+    properties:
+      id:
+        type: integer
+      orderId:
+        type: integer
+      itemName:
+        type: string
+    title: OrderItem
