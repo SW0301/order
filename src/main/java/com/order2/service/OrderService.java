@@ -2,21 +2,25 @@ package com.order2.service;
 
 import com.order2.DTO.OrderDTO;
 import com.order2.model.Order;
+import com.order2.repository.OrderItemRepository;
 import com.order2.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
     private OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    public OrderService(OrderRepository orderRepository){
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository){
         this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
     }
+
+
 
     public Order getById(Integer id){
         Order order = orderRepository.findById(id);
-        order.setOrderItems(orderRepository.findItem(id));
-
+        order.setOrderItems(orderItemRepository.findItem(id));
         return order;
 
     }
@@ -31,9 +35,9 @@ public class OrderService {
         orderRepository.create(id, orderDTO);
         Order order = orderRepository.findById(id);
         for(int i = 0; i < orderFromAPI.getOrderItems().size(); i++){
-            Integer seqId = orderRepository.getLastSeqId();
+            Integer seqId = orderItemRepository.getLastItemId();
             String item = orderFromAPI.getOrderItems().get(i).getItem();
-            orderRepository.createItem(seqId, id, item);
+            orderItemRepository.createItem(seqId, id, item);
         }
         return id;
     }
@@ -43,15 +47,12 @@ public class OrderService {
         for(int i = 0; i < orderFromAPI.getOrderItems().size(); i++){
             Integer itemId = orderFromAPI.getOrderItems().get(i).getId();
             String item = orderFromAPI.getOrderItems().get(i).getItem();
-            orderRepository.saveItem(itemId, item);
+            orderItemRepository.saveItem(itemId, item);
         }
     }
 
     public void deleteOrder(Integer id){
-        Integer itemId = orderRepository.getLastSeqId();
-        orderRepository.alterItemSeq(itemId);
-        orderRepository.deleteItem(id);
-        orderRepository.alterSeq(id);
+        orderItemRepository.deleteItem(id);
         orderRepository.delete(id);
     }
 
