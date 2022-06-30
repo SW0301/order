@@ -2,12 +2,8 @@ package com.order2.repository;
 
 import com.order2.DTO.OrderDTO;
 import com.order2.model.Order;
-import com.order2.model.OrderItem;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
 
 @Mapper
 @Repository
