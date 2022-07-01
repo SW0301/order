@@ -24,4 +24,9 @@ public interface OrderItemRepository {
     @Select("SELECT nextval('order_item_seq')")
     Integer getLastItemId();
 
+    @Select("SELECT EXISTS(SELECT * FROM order_item WHERE id = ${id} )")
+    boolean itemExists(Integer id);
+
+    @Delete("DELETE FROM order_item where id=#{id}")
+    void deleteItemById(Integer id);
 }
