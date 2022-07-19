@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.order2.mappers.OrderItemMapper">
+
+    <resultMap id="OrderItemMap" type="com.order2.model.OrderItem">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="itemName" column="item_name"/>
+    </resultMap>
+
+    <select id="findItem" parameterType="Integer" resultMap="OrderItemMap">
+        SELECT *
+        FROM order_item
+        WHERE order_id=#{id}
+    </select>
+
+    <insert id="createItem" keyColumn="id" keyProperty="id" parameterType="com.order2.model.OrderItem">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+        SELECT NEXTVAL('order_item_seq')
+        </selectKey>
+        INSERT INTO order_item
+        VALUES (#{id}, #{oi.orderId}, #{oi.itemName})
+    </insert>
+
+    <update id="saveItem" parameterType="com.order2.model.OrderItem">
+        UPDATE order_item
+        SET item_name = #{oi.itemName},
+            order_id = #{oi.orderId}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM order_item where order_id=#{id}
+    </delete>
+
+
+    <select id="itemExists"  resultType="boolean">
+        SELECT EXISTS(SELECT * FROM order_item WHERE id = ${id} )
+    </select>
+
+    <delete id="deleteItemById">
+        DELETE FROM order_item where id=#{id}
+    </delete>
+
+</mapper>

@@ -5,17 +5,16 @@ import com.order2.service.OrderService;
 import com.order2.model.Order;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/order")
 @Api(value="Получение, создание, изменение и удаление заказа")
 public class OrderController {
+    private final OrderService orderService;
 
-    private OrderService orderService;
-    @Autowired
-    public void setOrderService(OrderService orderService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 

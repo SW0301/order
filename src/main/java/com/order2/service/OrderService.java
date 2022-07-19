@@ -5,6 +5,7 @@ import com.order2.model.Order;
 import com.order2.model.OrderItem;
 import com.order2.repository.OrderItemRepository;
 import com.order2.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,19 +13,14 @@ import java.util.List;
 
 @Service
 public class OrderService {
+    @Autowired
     private OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
-
-    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository){
-        this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
-    }
-
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
 
     public Order getById(Integer id){
         Order order = orderRepository.findById(id);
-        order.setOrderItems(orderItemRepository.findItem(id));
         return order;
 
     }
@@ -33,9 +29,7 @@ public class OrderService {
         Integer id = orderRepository.getLastId();
         orderRepository.create(id, orderFromAPI);
         for(int i = 0; i < orderFromAPI.getOrderItems().size(); i++){
-            Integer seqId = orderItemRepository.getLastItemId();
-            String item = orderFromAPI.getOrderItems().get(i).getItem();
-            orderItemRepository.createItem(seqId, id, item);
+            orderItemRepository.createItem(orderFromAPI.getOrderItems().get(i));
         }
         return id;
     }
@@ -45,18 +39,17 @@ public class OrderService {
         if(orderFromAPI.getOrderItems().size() == orderItemRepository.findItem(id).size()){
             for(int i = 0; i < orderFromAPI.getOrderItems().size(); i++){
                 Integer itemId = orderFromAPI.getOrderItems().get(i).getId();
-                String item = orderFromAPI.getOrderItems().get(i).getItem();
+                OrderItem item = orderFromAPI.getOrderItems().get(i);
                 orderItemRepository.saveItem(itemId, item);
             }
         }
         else if (orderFromAPI.getOrderItems().size() > orderItemRepository.findItem(id).size()){
             for(int i = 0; i < orderFromAPI.getOrderItems().size(); i++){
                 Integer itemId = orderFromAPI.getOrderItems().get(i).getId();
-                String item = orderFromAPI.getOrderItems().get(i).getItem();
+                OrderItem item = orderFromAPI.getOrderItems().get(i);
                 orderItemRepository.saveItem(itemId, item);
                 if (!orderItemRepository.itemExists(itemId)){
-                    Integer itemSeqId = orderItemRepository.getLastItemId();
-                    orderItemRepository.createItem(itemSeqId, id, item);
+                    orderItemRepository.createItem(item);
                 }
             }
 
@@ -76,7 +69,7 @@ public class OrderService {
                 for(int j=0; j<orderFromAPI.getOrderItems().size();j++)
                     if(existsInRequest[i]){
                         Integer itemId = orderFromAPI.getOrderItems().get(j).getId();
-                        String item = orderFromAPI.getOrderItems().get(j).getItem();
+                        OrderItem item = orderFromAPI.getOrderItems().get(j);
                         orderItemRepository.saveItem(itemId, item);
                     }
                     else{

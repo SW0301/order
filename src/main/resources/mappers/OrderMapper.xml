@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.order2.mappers.OrderMapper">
+
+    <resultMap id="OrderMap" type="com.order2.model.Order">
+        <result property="id" column="order_id"/>
+        <result property="orderStatusId" column="order_status_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="customerPhone" column="customer_phone"/>
+        <result property="customerComment" column="customer_comment"/>
+        <collection property="orderItems" javaType="ArrayList" column="id" ofType="com.order2.model.OrderItem">
+            <result property="id" column="order_item_id" />
+            <result property="orderId" column="order_id" />
+            <result property="itemName" column="item_name" />
+        </collection>
+    </resultMap>
+
+    <select id="findById" parameterType="Integer" resultMap="OrderMap">
+        SELECT o.id as order_id, o.order_status_id, o.customer_name, o.customer_phone, o.customer_comment, oi.id as order_item_id, order_id, item_name
+        FROM "order" o left join order_item oi on o.id = oi.order_id
+        WHERE o.id=#{id}
+    </select>
+
+    <insert id="create" keyColumn="ID" keyProperty="id" parameterType="com.order2.DTO.OrderDTO" >
+        INSERT INTO "order" (id, order_status_id, customer_name , customer_phone , customer_comment)
+        VALUES ( #{id}, #{o.orderStatusId}, #{o.customerName}, #{o.customerPhone}, #{o.customerComment})
+    </insert>
+
+    <update id="save" parameterType="com.order2.DTO.OrderDTO">
+        UPDATE "order"
+        SET
+            order_status_id=#{o.orderStatusId},
+            customer_name=#{o.customerName},
+            customer_phone=#{o.customerPhone},
+            customer_comment=#{o.customerComment}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM "order" WHERE id=#{id}
+    </delete>
+
+    <select id="getLastId"  resultType="int">
+        SELECT NEXTVAL('order_seq')
+    </select>
+</mapper>
