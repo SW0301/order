@@ -8,12 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
-
-    private OrderMapper orderMapper;
     @Autowired
-    public OrderRepositoryImpl(OrderMapper orderMapper) {
-        this.orderMapper = orderMapper;
-    }
+    private OrderMapper orderMapper;
 
     @Override
     public Order findById(Integer id) {
